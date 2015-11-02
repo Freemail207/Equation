@@ -1,0 +1,19 @@
+body{
+
+}
+.first{
+ float: left;
+    background-color: red;
+    height: 100px;
+    width:100px;
+    margin: 10px;
+
+}
+.wrapper{
+    background-color: yellow;
+    height: 100px;
+    width: 300px;
+}
+.second{
+
+}
