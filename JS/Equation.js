@@ -4,44 +4,42 @@ var input = document.getElementsByClassName('input')[0],
     putMe= document.getElementsByClassName('putMe')[0];
 putMe.onclick=function() {
     var string = input.value;
-    var pattern = [/[a-z][\d]|[a-z][a-z]/gi, /[\.]{2,}/gi, /[\.][\w][\.]/gi, /[a-z][\.]/gi, /[\\+*-]{2,}/gi, /[\\+*-][\)]/gi, /\s/gi, /[\(][\\+*]/gi, /[\d][a-z]/gi, /[(][)]/gi, /[a-z][(]/gi,/[\)][\(]/gi,/[\)][0-9]/gi,/[\)][a-z]/gi];
     var result = [];
     var description = [];
     var c = checkBracket(string);
-    pattern.forEach(function (item, i, pattern) {
-        result[i] = string.match(pattern[i]);
-    });
-    description[0] = ", Wrong variable name <br>";
-    description[1] = ", Wrong amount of point <br>";
-    description[2] = ", unknown number <br>";
-    description[3] = ", Wrong variable <br>";
-    description[4] = ", unknown action <br>";
-    description[5] = ", Wrong action before bracket<br>";
-    description[6] = ", Delete space <br>";
-    description[7] = ", Wrong action after bracket<br>";
-    description[8] = ", Wrong variable name <br>";
-    description[9] = ", empty bracket <br>";
-    description[10] = ", unknown action <br>";
-description[11] = ",  unknown action <br>";
-description[12] = ", wrong action after bracket<br>";
-description[13] = ", wrong action after bracket<br>";
+// RegExp check correct action
+    var action={
+        reg: /([\\+*-]{2,})|([\\+*-][\)])|([\(][\\+*])|([(][)])|([\)][\(])|([\)][0-9])|([\)][a-z])|([a-z][(])/gi,
+        normReg:[/[\(][+-]*[\)]/gi,/[\\*]/gi],//for parallel, lab2
+        error: 'Unknown action <br>'
+    }
+// RegExp check correct action
+    var variable={
+        reg: /([a-z][\d]|[a-z][a-z])|([\.]{2,})|([\.][\w][\.])|([a-z][\.])|([\d][a-z])/gi,
+        error: 'Unknown variable <br>'
+    }
+    var check = [action, variable];
+        result[0] = string.match(action.reg);
+    result[1] = string.match(variable.reg);
+
+
     result.forEach(function (item, i, result) {
         if (item != null) {
-            document.write(result[i] + description[i]+"<br>");
-      
+            document.write(result[i] + check[i].error);
         }
     });
     var bracket;
     if (bracket = checkBracket(string)) {
         document.write(bracket);
     }
-checkAction(string);
+    checkAction(string);
 }
+
 ////////////////////////////////
 //Check amount of bracket
 function checkAction(str){
     var res;
-    res=str[0].match(/([a-z])|([0-9])|(\-)/);
+    res=str[0].match(/([a-z])|([0-9])|(\-)|\(|\)/);
     if(!res){
         alert('wrong first symbol');
     }
@@ -71,5 +69,3 @@ function checkBracket(str){
     }
 
 }
-
-
